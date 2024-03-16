@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "data-set-credit-score"
+version = "0.1.0"
+description = ""
+authors = [
+  "kenneth vincentius <kennethv1706@idk.com>",
+  "wid <wid@widnyana.web.id>",
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.110.0"
+numpy = "^1.26.4"
+pandas = "^2.2.1"
+scikit-learn = "1.3.0"
+scipy = "^1.12.0"
+uvicorn = "^0.28.0"
+
+
+[tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
+streamlit = "^1.32.2"
+seaborn = "^0.13.2"
+matplotlib = "^3.8.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
