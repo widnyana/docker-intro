@@ -1,0 +1,13 @@
+[package]
+name = "rust-multistage"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = { version = "4", features = ["openssl"] }
+awc = { version = "3.5.0", features = ["openssl"] }
+env_logger = "0.11.3"
+log = "0.4.22"
+mime = "0.3.17"
+openssl = "0.10.64"
+serde_json = "1.0.120"
