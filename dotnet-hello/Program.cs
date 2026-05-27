@@ -24,9 +24,11 @@ builder.Services.AddSingleton<NpgsqlDataSource>(dataSourceBuilder.Build());
 var redisConfig = ConfigurationOptions.Parse(redisUrl);
 redisConfig.AbortOnConnectFail = false;
 builder.Services.AddSingleton<IConnectionMultiplexer>(await ConnectionMultiplexer.ConnectAsync(redisConfig));
+builder.Services.AddHttpLogging();
 
 var app = builder.Build();
 
+app.UseHttpLogging();
 app.Use(async (ctx, next) =>
 {
     ctx.Response.Headers["X-Served-From"] = Environment.MachineName;
