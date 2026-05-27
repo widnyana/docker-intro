@@ -15,6 +15,13 @@
 
 All responses include `X-Served-From: <hostname>` header.
 
+## Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `ConnectionStrings__Default` | PostgreSQL DSN | `Host=postgres;Username=appuser;Password=secret;Database=appdb` |
+| `Redis__ConnectionString` | Redis connection string | `redis` or `localhost:6379` |
+
 ## Run with Docker Compose
 
 ```sh
