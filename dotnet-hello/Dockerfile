@@ -1,12 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS builder
-
 WORKDIR /build
 
 COPY dotnet-hello.csproj .
 RUN dotnet restore
 
 COPY . .
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish -c Release --no-restore -o /app/publish
 
 # =====================
 
