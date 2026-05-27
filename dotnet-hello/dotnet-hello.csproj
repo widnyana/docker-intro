@@ -5,11 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>dotnet_hello</RootNamespace>
+    <DebugType>none</DebugType>
+    <StripSymbols>true</StripSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="9.0.3" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+    <PackageReference Include="Npgsql" Version="10.0.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
   </ItemGroup>
 
 </Project>
