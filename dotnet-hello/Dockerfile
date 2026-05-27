@@ -21,5 +21,7 @@ USER appuser
 
 EXPOSE 8000
 ENV ASPNETCORE_HTTP_PORTS=8000
+ENV ConnectionStrings__Default=""
+ENV Redis__ConnectionString=""
 
 ENTRYPOINT ["dotnet", "dotnet-hello.dll"]

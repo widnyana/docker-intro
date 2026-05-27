@@ -1,21 +1,39 @@
 # dotnet-hello
 
-Minimal .NET 10 web API returning the container's hostname.
+.NET 10 minimal web API with PostgreSQL and Redis backends.
 
-## Build
+## Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/` | Returns hostname |
+| GET | `/counter` | Get PgSQL counter state |
+| POST | `/counter` | Increment PgSQL counter |
+| GET | `/counter-redis` | Get Redis counter state |
+| POST | `/counter-redis` | Increment Redis counter |
+| GET | `/health` | Health check (PgSQL + Redis status) |
+
+All responses include `X-Served-From: <hostname>` header.
+
+## Run with Docker Compose
 
 ```sh
-docker build -t dotnet-hello .
-```
-
-## Run
-
-```sh
-docker run -p 8000:8000 --rm dotnet-hello
+docker compose up -d --build
 ```
 
 ## Test
 
 ```sh
 curl http://localhost:8000/
+curl http://localhost:8000/counter
+curl -X POST http://localhost:8000/counter
+curl http://localhost:8000/counter-redis
+curl -X POST http://localhost:8000/counter-redis
+curl http://localhost:8000/health
+```
+
+## Teardown
+
+```sh
+docker compose down
 ```
