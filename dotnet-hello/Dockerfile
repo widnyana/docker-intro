@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS builder
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS builder
 
 WORKDIR /build
 
@@ -10,9 +10,9 @@ RUN dotnet publish -c Release -o /app/publish
 
 # =====================
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
-RUN useradd --create-home appuser
+RUN adduser -Ds /bin/sh appuser
 
 WORKDIR /app
 COPY --from=builder /app/publish .
