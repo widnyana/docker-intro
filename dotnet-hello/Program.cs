@@ -4,9 +4,16 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 
 var dsn = builder.Configuration.GetConnectionString("Default")
-    ?? throw new InvalidOperationException("ConnectionStrings:Default is not configured");
+    ?? builder.Configuration["DATABASE_URL"]
+    ?? throw new InvalidOperationException("ConnectionStrings:Default or DATABASE_URL must be configured");
+if (string.IsNullOrWhiteSpace(dsn))
+    throw new InvalidOperationException("ConnectionStrings:Default or DATABASE_URL must be configured");
+
 var redisUrl = builder.Configuration["Redis:ConnectionString"]
-    ?? throw new InvalidOperationException("Redis:ConnectionString is not configured");
+    ?? builder.Configuration["REDIS_URL"]
+    ?? throw new InvalidOperationException("Redis:ConnectionString or REDIS_URL must be configured");
+if (string.IsNullOrWhiteSpace(redisUrl))
+    throw new InvalidOperationException("Redis:ConnectionString or REDIS_URL must be configured");
 
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(dsn);
 dataSourceBuilder.ConnectionStringBuilder.Pooling = true;
@@ -154,4 +161,4 @@ app.MapGet("/health", async (NpgsqlDataSource dataSource, IConnectionMultiplexer
     });
 });
 
-app.Run("http://*:8000");
+app.Run();

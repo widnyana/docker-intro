@@ -19,8 +19,8 @@ COPY --from=builder /app/publish .
 
 USER appuser
 
-EXPOSE 8000
-ENV ASPNETCORE_HTTP_PORTS=8000
+EXPOSE 8080
+ENV ASPNETCORE_HTTP_PORTS=8080
 ENV ConnectionStrings__Default=""
 ENV Redis__ConnectionString=""
 
