@@ -139,7 +139,7 @@ app.MapPost("/counter-redis", (IConnectionMultiplexer redis) =>
     return Results.Ok(new { count = (long)newCount });
 });
 
-app.MapGet("/health", async (NpgsqlDataSource dataSource, IConnectionMultiplexer redis) =>
+app.MapGet("/health", async (NpgsqlDataSource dataSource, IConnectionMultiplexer redis, ILogger<Program> logger) =>
 {
     string pgStatus;
     try
@@ -148,12 +148,33 @@ app.MapGet("/health", async (NpgsqlDataSource dataSource, IConnectionMultiplexer
         await cmd.ExecuteScalarAsync();
         pgStatus = "healthy";
     }
-    catch
+    catch (Exception ex)
     {
+        logger.LogError(ex, "PgSQL health check failed");
         pgStatus = "unhealthy";
     }
 
-    var redisStatus = redis.IsConnected ? "healthy" : "unhealthy";
+    string redisStatus;
+    try
+    {
+        if (redis.IsConnected)
+        {
+            var db = redis.GetDatabase();
+            await db.PingAsync();
+            redisStatus = "healthy";
+        }
+        else
+        {
+            logger.LogWarning("Redis not connected (IsConnected=false). Endpoints: {Endpoints}, ClientName: {ClientName}",
+                string.Join(",", redis.GetEndPoints().Select(e => e.ToString())), redis.ClientName);
+            redisStatus = "unhealthy";
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Redis health check failed");
+        redisStatus = "unhealthy";
+    }
 
     return Results.Ok(new
     {
